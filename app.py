@@ -243,9 +243,9 @@ defaults = {
 
     # TYŁ: domyślnie kolor+tekst (biały, czarny, 46, środek)
     "back_mode": "Kolor + tekst",
-    "back_color_hex": "#ffffff",
+    "back_color_hex": "#000000",
     "back_text": "",
-    "back_text_color_hex": "#000000",
+    "back_text_color_hex": "#ffffff",
     "back_text_size_px": 46,
     "back_text_pos": "Środek",
     "back_text_bold": False,
@@ -471,3 +471,4 @@ with right:
             mime="image/jpeg",
             use_container_width=True
         )
+

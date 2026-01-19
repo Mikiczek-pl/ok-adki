@@ -26,7 +26,7 @@ FONT_CHOICES = {
 # =========================
 # UI STYLE (większe, kolorowe zakładki + duży przycisk)
 # =========================
-APP_ACCENT = "#ff2d55"  # możesz zmienić np. na #2563eb (niebieski)
+APP_ACCENT = "#2563eb"  # NIEBIESKI
 st.set_page_config(page_title="Generator okładek Blu-ray", layout="wide")
 
 st.markdown(
@@ -84,11 +84,6 @@ st.markdown(
     }}
     .stDownloadButton > button:hover {{
         filter: brightness(0.95);
-    }}
-
-    /* Checkboxy / selecty lekko większe */
-    label, .stSelectbox label, .stColorPicker label {{
-        font-weight: 700 !important;
     }}
     </style>
     """,
@@ -283,7 +278,6 @@ def corner_to_lr_tb(corner: str):
 # =========================
 # APP
 # =========================
-st.markdown("## ")  # lekki oddech
 st.title("Generator okładek Blu-ray")
 st.caption("Prosto: wgraj pliki → ustaw grzbiet → opcjonalnie ustaw tył i logo → pobierz JPG.")
 
@@ -299,17 +293,17 @@ defaults = {
     "spine_font_choice": "Sans (DejaVu)",
     "spine_bold": True,
 
-    # TYŁ domyślnie: biały + tekst czarny 46, środek
+    # TYŁ domyślnie: czarny + biały napis
     "back_mode": "Kolor + tekst",
-    "back_color_hex": "#ffffff",
+    "back_color_hex": "#000000",
     "back_text": "",
-    "back_text_color_hex": "#000000",
+    "back_text_color_hex": "#ffffff",
     "back_text_size_px": 46,
     "back_text_pos": "Środek",
     "back_text_bold": False,
     "back_text_font": "Sans (DejaVu)",
 
-    # LOGO
+    # LOGO domyślnie: szerokość 15mm, margines 5mm
     "logo_variant": "Białe",
     "logo_on_front": True,
     "logo_on_back": True,
@@ -335,9 +329,9 @@ with left:
         st.file_uploader("Przód", type=["png", "jpg", "jpeg", "webp"], key="u_front")
         st.file_uploader("Tył (opcjonalnie)", type=["png", "jpg", "jpeg", "webp"], key="u_back")
         st.checkbox("Zamień przód z tyłem", key="swap")
-        st.caption("Jeśli wgrasz plik TYŁ, aplikacja użyje go automatycznie zamiast białego tła z tekstem.")
+        st.caption("Jeśli wgrasz plik TYŁ, aplikacja użyje go automatycznie zamiast tła z tekstem.")
 
-    # Auto: jeśli wgrano TYŁ -> Obraz, w przeciwnym razie Kolor+tekst
+    # Auto: jeśli wgrano TYŁ -> Obraz, inaczej Kolor+tekst
     if st.session_state.get("u_back") is not None:
         st.session_state["back_mode"] = "Obraz"
     else:
@@ -360,9 +354,9 @@ with left:
         st.subheader("Tył")
 
         if st.session_state["back_mode"] == "Obraz":
-            st.success("Tył: używany jest wgrany plik TYŁ (z zakładki Pliki).")
+            st.success("Tył: używany jest wgrany plik TYŁ.")
         else:
-            st.info("Tył: domyślnie biały z tekstem (wielowierszowym).")
+            st.info("Tył: domyślnie czarny z białym tekstem (wielowierszowym).")
 
         if st.session_state["back_mode"] == "Kolor + tekst":
             st.color_picker("Kolor tła", key="back_color_hex")
@@ -443,7 +437,7 @@ with right:
     if st.session_state["swap"]:
         front_in, back_in = back_in, front_in
 
-    # crop + fit (fit = rozciąganie)
+    # crop + fit
     front_cropped = crop_by_percent(front_in, st.session_state["f_left"], st.session_state["f_right"],
                                     st.session_state["f_top"], st.session_state["f_bottom"])
     back_cropped = crop_by_percent(back_in, st.session_state["b_left"], st.session_state["b_right"],
@@ -501,7 +495,6 @@ with right:
 
     st.image(canvas, use_container_width=True)
 
-    # DUŻY download (jeden przycisk)
     out_rgb = canvas.convert("RGB")
     buf = io.BytesIO()
     out_rgb.save(buf, format="JPEG", quality=95, subsampling=0, dpi=(DPI, DPI))

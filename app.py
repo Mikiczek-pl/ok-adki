@@ -257,8 +257,8 @@ defaults = {
     "logo_on_back": True,
     "logo_corner_front": "Prawy dół",
     "logo_corner_back": "Lewy dół",
-    "logo_max_w_mm": 25.0,
-    "logo_margin_mm": 6.0,
+    "logo_max_w_mm": 15.0,
+    "logo_margin_mm": 5.0,
 
     # CROP (opcjonalne)
     "f_left": 0.0, "f_right": 0.0, "f_top": 0.0, "f_bottom": 0.0,
@@ -471,4 +471,5 @@ with right:
             mime="image/jpeg",
             use_container_width=True
         )
+
 
